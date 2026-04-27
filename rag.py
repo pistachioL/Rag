@@ -1,8 +1,5 @@
 import os
 
-# 强制配置环境变量（解决API Key问题）
-os.environ["ZHIPUAI_API_KEY"] =os.getenv("ZHIPUAI_API_KEY")
-
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough, RunnableWithMessageHistory, RunnableLambda
 import config_data
@@ -22,9 +19,12 @@ def print_prompt(prompt):
 
 class RagService(object):
     def __init__(self):
+        api_key = os.getenv("ZHIPU_API_KEY")
+
         # 向量库 + 嵌入模型
         self.vector_service = VectorStoreService(
             embedding=ZhipuAIEmbeddings(
+                api_key=api_key,
                 model=config_data.embedding_model_name,
             )
         )
@@ -41,6 +41,7 @@ class RagService(object):
 
         # 智谱聊天模型
         self.chat_model = ChatZhipuAI(
+            api_key=api_key,
             model_name=config_data.chat_model_name,
             temperature=0.1,
         )
