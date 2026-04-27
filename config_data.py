@@ -15,3 +15,7 @@ similarity_threshold = 2
 
 embedding_model_name="embedding-3"
 chat_model_name="glm-5.1"
+
+session_config = {
+    "configurable": {"session_id": "user_123"}
+}
